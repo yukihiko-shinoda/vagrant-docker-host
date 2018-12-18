@@ -21,7 +21,7 @@ Vagrant.configure(2) do |config|
   config.vm.network :forwarded_port, guest: 443, host: 443
   config.vm.network :forwarded_port, guest: 3306, host: 3306
   # config.vm.synced_folder "./", "/vagrant", type:"nfs"
-  config.vm.synced_folder ".", "/vagrant", mount_options: ["dmode=775,fmode=664"]
+  config.vm.synced_folder ".", "/vagrant", group: "nobody", mount_options: ["dmode=775,fmode=664"]
 
   config.vm.provision "shell", inline: $set_environment_variables, run: "always"
 end
