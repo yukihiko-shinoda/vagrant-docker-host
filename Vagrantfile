@@ -17,9 +17,10 @@ Vagrant.configure(2) do |config|
     vm.memory = 2048
   end
 
-  config.vm.network :forwarded_port, guest: 80, host: 80
-  config.vm.network :forwarded_port, guest: 443, host: 443
-  config.vm.network :forwarded_port, guest: 3306, host: 3306
+  config.vm.network :forwarded_port, guest: 80, host: 80      # HTTP  for web browser
+  config.vm.network :forwarded_port, guest: 443, host: 443    # HTTPS for web browser
+  config.vm.network :forwarded_port, guest: 2375, host: 2375  # Docker host for IDE
+  config.vm.network :forwarded_port, guest: 3306, host: 3306  # MySQL for MySQL Workbench
   # config.vm.synced_folder "./", "/vagrant", type:"nfs"
   config.vm.synced_folder ".", "/vagrant", group: "nobody", mount_options: ["dmode=775,fmode=664"]
 
