@@ -20,7 +20,8 @@ Vagrant.configure(2) do |config|
   config.vm.network :forwarded_port, guest: 80, host: 80      # HTTP  for web browser
   config.vm.network :forwarded_port, guest: 443, host: 443    # HTTPS for web browser
   config.vm.network :forwarded_port, guest: 2375, host: 2375  # Docker host for IDE
-  config.vm.network :forwarded_port, guest: 3306, host: 3306  # MySQL for MySQL Workbench
+  config.vm.network :forwarded_port, guest: 3306, host: 3306  # MySQL for MySQL client
+  config.vm.network :forwarded_port, guest: 5432, host: 5432  # PostgreSQL for PostgreSQL client
   # config.vm.synced_folder "./", "/vagrant", type:"nfs"
   config.vm.synced_folder ".", "/vagrant", group: "nobody", mount_options: ["dmode=775,fmode=664"]
 
