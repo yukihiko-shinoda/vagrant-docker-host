@@ -22,11 +22,16 @@ Vagrant.configure(2) do |config|
   config.vm.network :forwarded_port, guest: 443, host: 443    # HTTPS for web browser
   config.vm.network :forwarded_port, guest: 2375, host: 2375  # Docker host for IDE
   config.vm.network :forwarded_port, guest: 3306, host: 3306  # MySQL for MySQL client
+  config.vm.network :forwarded_port, guest: 3690, host: 3690  # SVN for TortoiseSVN
   config.vm.network :forwarded_port, guest: 5432, host: 5432  # PostgreSQL for PostgreSQL client
   # config.vm.synced_folder "./", "/vagrant", type:"nfs"
   # config.nfs.map_uid = ENV['MAC_CURRENT_USER_ID']
   # config.nfs.map_gid = ENV['MAC_CURRENT_USER_ID']
-  config.vm.synced_folder ".", "/vagrant", group: "nobody", mount_options: ["dmode=775,fmode=664"]
+  # ↓ in CentOS 8, the user "nobody" is ID: 65534, however in Amazon Linux 2, the user "nobody" is still ID:99
+  # ↓ so we have to specify group not user name but user ID
+  # ↓ to grant write permission to user "nobody" on Docker container.
+  # ↓ This specification is depend on the specification of Heroku CLI.
+  config.vm.synced_folder ".", "/vagrant", group: 99, mount_options: ["dmode=775,fmode=664"]
 
   config.vm.provision "shell", inline: $set_environment_variables, run: "always"
   config.vm.provision "ansible_local" do |ansible|
